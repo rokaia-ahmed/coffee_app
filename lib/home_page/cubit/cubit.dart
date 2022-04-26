@@ -25,9 +25,10 @@ class ProductCubit extends Cubit<ProductStates> {
        print(data);
         data.forEach((element) {
           ProductModel model = ProductModel.fromJson(element);
-          products.add(model);
           if(model.special){
             special.add(model);
+          }else{
+            products.add(model);
           }
           print('data : '+products.toString());
           emit(SuccessProductState());

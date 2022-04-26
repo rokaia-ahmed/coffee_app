@@ -60,7 +60,7 @@ class SpecialCoffeeCard extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30.0),
                           image:DecorationImage(
-                              image: AssetImage(images[index] ),
+                              image: NetworkImage(model.image),
                               fit: BoxFit.cover
                           ) ,
                         ),
@@ -73,7 +73,7 @@ class SpecialCoffeeCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            coffeeName[index],
+                            model.name,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -86,7 +86,7 @@ class SpecialCoffeeCard extends StatelessWidget {
                             height: 6.0,
                           ),
                           Text(
-                            ingredients[index],
+                            model.ingredients,
                             style: TextStyle(
                               color:Color(0xff919293),
                               fontSize: 12,
@@ -109,7 +109,7 @@ class SpecialCoffeeCard extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                price[index],
+                                model.price,
                                 style: TextStyle(
                                   color:Colors.white,
                                   fontSize: 20,
