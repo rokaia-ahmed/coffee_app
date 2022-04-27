@@ -1,5 +1,6 @@
 class ProductModel {
   late String name;
+  late String categoryId ;
   late String id ;
   late String image ;
  late String description ;
@@ -9,6 +10,7 @@ class ProductModel {
  late bool special;
    ProductModel({
    required this.id,
+   required this.categoryId,
    required this.name,
    required this.size,
     required this.price,
@@ -19,9 +21,9 @@ class ProductModel {
 });
   factory ProductModel.
       fromJson(Map<String,dynamic>json){
-    print('model : '+json.toString());
      return ProductModel
        (
+       categoryId: json['category_id'],
        price: json['price'],
        name: json['name'],
        description: json['description'],

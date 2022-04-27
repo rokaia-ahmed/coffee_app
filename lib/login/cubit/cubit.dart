@@ -1,4 +1,4 @@
-import 'package:bloc/bloc.dart';
+
 import 'package:coffee_shop/login/cubit/states.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +15,7 @@ class LoginCubit extends Cubit<LoginStates>{
         password: password,
     ).then((value){
       print(value.user!.email);
-      emit(SuccessLoginState());
+      emit(SuccessLoginState(value.user!.uid));
     }
     ).catchError((error){
       emit(ErrorLoginState(error.toString()));

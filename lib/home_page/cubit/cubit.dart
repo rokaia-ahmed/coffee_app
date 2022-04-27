@@ -1,6 +1,7 @@
-import 'package:bloc/bloc.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_shop/home_page/cubit/states.dart';
+import 'package:coffee_shop/model/category.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../model/product_model.dart';
@@ -11,11 +12,11 @@ class ProductCubit extends Cubit<ProductStates> {
   static ProductCubit get(context) => BlocProvider.of(context);
 
   FirebaseFirestore db = FirebaseFirestore.instance;
-  ProductModel? productModel ;
+ //late ProductModel productModel ;
+ late CategoryModel categoryModel ;
 
   List<ProductModel> products = [];
   List<ProductModel>special = [];
-
 
   Future<List<ProductModel>> getProduct()async{
     emit(LoadingProductState());
@@ -25,10 +26,10 @@ class ProductCubit extends Cubit<ProductStates> {
        print(data);
         data.forEach((element) {
           ProductModel model = ProductModel.fromJson(element);
-          if(model.special){
-            special.add(model);
-          }else{
+          if(model.categoryId == categoryModel.id && model.special!= true){
             products.add(model);
+          }else{
+            special.add(model);
           }
           print('data : '+products.toString());
           emit(SuccessProductState());
@@ -39,6 +40,27 @@ class ProductCubit extends Cubit<ProductStates> {
      });
     return products;
   }
+    List<CategoryModel> category =[];
+  Future<List<CategoryModel>> getCategory()async{
+    emit(LoadingCategoryState());
+    var response = db.collection('categories').doc('2');
+    await response.get().then((value) {
+      List data = value.get('data');
+      print(data);
+        data.forEach((element) {
+          categoryModel = CategoryModel.fromJson(element);
+          category.add(categoryModel);
+        });
+        emit(SuccessCategoryState());
+    }).catchError((error){
+      emit(ErrorCategoryState(error));
+    });
+    return category ;
+  }
+
+
+
+
 
 }
 

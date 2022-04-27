@@ -4,9 +4,11 @@ import 'package:coffee_shop/home_page/special_coffee_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../model/category.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 
+late  TabController _tabController;
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,7 +17,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
-  late final TabController _tabController;
+  late CategoryModel categoryModel ;
+
   @override
   void initState() {
     _tabController = TabController(length: 6, vsync: this);
@@ -32,7 +35,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context)=> ProductCubit(InitialProductState())..getProduct(),
+      create: (context)=> ProductCubit(InitialProductState())..getProduct()..getCategory(),
       child: Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
@@ -135,7 +138,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       labelStyle: TextStyle(fontWeight: FontWeight.bold),
                       unselectedLabelColor: Color(0xff3c4046),
                       indicatorColor: Color(0xffd17842),
-
+                      onTap:(context){
+                        setState(() {
+                          _tabController.index = int.parse(categoryModel.id);
+                        });
+                      } ,
                     ),
                     CoffeeCard(),
                     Text('Special for you ',
