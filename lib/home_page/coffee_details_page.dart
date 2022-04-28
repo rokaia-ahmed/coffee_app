@@ -1,19 +1,21 @@
-
 import 'dart:ui';
+import 'package:coffee_shop/model/product_model.dart';
 import 'package:flutter/material.dart';
 
 import 'change_Size_coffee.dart';
-class CoffeeDetailsPage  extends StatelessWidget {
 
+class CoffeeDetailsPage extends StatelessWidget {
+  ProductModel model;
+  CoffeeDetailsPage(this.model);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    backgroundColor: Colors.black,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(10),
-            child: SingleChildScrollView(
-              child: Column(
+          child: SingleChildScrollView(
+            child: Column(
               children: [
                 Stack(
                   children: [
@@ -23,7 +25,7 @@ class CoffeeDetailsPage  extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         image: DecorationImage(
-                          image: AssetImage('images/Cappuccino3.jpg'),
+                          image: NetworkImage(model.image),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -87,10 +89,12 @@ class CoffeeDetailsPage  extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Cappuccino',
@@ -297,23 +301,28 @@ class CoffeeDetailsPage  extends StatelessWidget {
                         children: [
                           Column(
                             children: [
-                              Text('Price',
-                              style: TextStyle(
-                                color: Color(0xff919296),
-                                fontWeight: FontWeight.bold,
+                              Text(
+                                'Price',
+                                style: TextStyle(
+                                  color: Color(0xff919296),
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
+                              SizedBox(
+                                height: 10,
                               ),
-                              SizedBox(height: 10,),
                               Row(
                                 children: [
-                                  Text(r'$',
+                                  Text(
+                                    r'$',
                                     style: TextStyle(
                                       color: Color(0xffd17842),
                                       fontWeight: FontWeight.bold,
                                       fontSize: 21,
                                     ),
                                   ),
-                                  Text('4.20',
+                                  Text(
+                                    '4.20',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 21,
@@ -325,25 +334,26 @@ class CoffeeDetailsPage  extends StatelessWidget {
                             ],
                           ),
                           InkWell(
-                            onTap:(){} ,
+                            onTap: () {},
                             highlightColor: Colors.transparent,
-                            splashColor:Colors.transparent ,
+                            splashColor: Colors.transparent,
                             child: Container(
                               height: 50,
-                              width:220 ,
+                              width: 220,
                               decoration: BoxDecoration(
                                 color: Color(0xffd17842),
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child:Center(
-                                child: Text('Buy Now',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                              child: Center(
+                                child: Text(
+                                  'Buy Now',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                                ),
-                              ) ,
+                              ),
                             ),
                           ),
                         ],
@@ -352,11 +362,10 @@ class CoffeeDetailsPage  extends StatelessWidget {
                   ),
                 ),
               ],
-          ),
             ),
+          ),
         ),
       ),
-     );
+    );
   }
 }
-

@@ -1,4 +1,3 @@
-
 import 'package:coffee_shop/home_page/coffee_card.dart';
 import 'package:coffee_shop/home_page/special_coffee_card.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,7 @@ import '../model/category.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
 
-late  TabController _tabController;
+late TabController _tabController;
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,15 +15,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-
-  late CategoryModel categoryModel ;
+  late CategoryModel categoryModel;
 
   @override
   void initState() {
-    _tabController = TabController(length: 6, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     super.initState();
     //_tabController.animateTo(2);
   }
+
   int currentIndex = 0;
   void changeCurrentIndex(int index) {
     setState(() {
@@ -35,7 +34,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context)=> ProductCubit(InitialProductState())..getCategory()..getProduct(),
+      create: (context) => ProductCubit(InitialProductState())..getProduct(),
       child: Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
@@ -45,10 +44,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             padding: EdgeInsets.all(20.0),
             children: [
               Container(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width,
+                width: MediaQuery.of(context).size.width,
                 height: 620,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +70,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           clipBehavior: Clip.antiAlias,
-                          child: Image.asset('images/person.jpg',
+                          child: Image.asset(
+                            'images/person.jpg',
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -95,10 +92,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       height: 25,
                     ),
                     Container(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width,
+                      width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         color: Color(0xff141921),
                         borderRadius: BorderRadius.circular(15.0),
@@ -114,7 +108,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           ),
                           hoverColor: Colors.grey,
                           border: InputBorder.none,
-                          prefixIcon: Icon(Icons.search,
+                          prefixIcon: Icon(
+                            Icons.search,
                             color: Colors.grey[600],
                           ),
                         ),
@@ -125,12 +120,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                     TabBar(
                       tabs: [
-                        Tab(text: 'Cappuccino',),
-                        Tab(text: 'Espresso',),
-                        Tab(text: 'Americano',),
-                        Tab(text: 'Latte',),
-                        Tab(text: 'Black',),
-                        Tab(text: 'Mocha',),
+                        Tab(
+                          text: 'Cappuccino',
+                        ),
+                        Tab(
+                          text: 'Espresso',
+                        ),
+                        // Tab(
+                        //   text: 'Americano',
+                        // ),
+                        // Tab(
+                        //   text: 'Latte',
+                        // ),
+                        // Tab(
+                        //   text: 'Black',
+                        // ),
+                        // Tab(
+                        //   text: 'Mocha',
+                        // ),
                       ],
                       controller: _tabController,
                       isScrollable: true,
@@ -138,23 +145,23 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       labelStyle: TextStyle(fontWeight: FontWeight.bold),
                       unselectedLabelColor: Color(0xff3c4046),
                       indicatorColor: Color(0xffd17842),
-
                     ),
                     SizedBox(
                       height: 270,
                       child: TabBarView(
-                        controller: _tabController ,
+                        controller: _tabController,
                         children: [
-                          CoffeeCard(),
-                          CoffeeCard(),
-                          CoffeeCard(),
-                          CoffeeCard(),
-                          CoffeeCard(),
-                          CoffeeCard(),
+                          CoffeeCard('Cappuccino'),
+                          CoffeeCard('Espresso'),
+                          // CoffeeCard(),
+                          // CoffeeCard(),
+                          // CoffeeCard(),
+                          // CoffeeCard(),
                         ],
                       ),
                     ),
-                    Text('Special for you ',
+                    Text(
+                      'Special for you ',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -185,7 +192,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               label: '',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_bag, size: 35,),
+              icon: Icon(
+                Icons.shopping_bag,
+                size: 35,
+              ),
               label: '',
             ),
             BottomNavigationBarItem(
@@ -198,4 +208,3 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 }
-
