@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context)=> ProductCubit(InitialProductState())..getProduct()..getCategory(),
+      create: (context)=> ProductCubit(InitialProductState())..getCategory()..getProduct(),
       child: Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
@@ -138,13 +138,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       labelStyle: TextStyle(fontWeight: FontWeight.bold),
                       unselectedLabelColor: Color(0xff3c4046),
                       indicatorColor: Color(0xffd17842),
-                      onTap:(context){
-                        setState(() {
-                          _tabController.index = int.parse(categoryModel.id);
-                        });
-                      } ,
+
                     ),
-                    CoffeeCard(),
+                    SizedBox(
+                      height: 270,
+                      child: TabBarView(
+                        controller: _tabController ,
+                        children: [
+                          CoffeeCard(),
+                          CoffeeCard(),
+                          CoffeeCard(),
+                          CoffeeCard(),
+                          CoffeeCard(),
+                          CoffeeCard(),
+                        ],
+                      ),
+                    ),
                     Text('Special for you ',
                       style: TextStyle(
                         color: Colors.white,
@@ -153,7 +162,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       ),
                     ),
                     SizedBox(
-                      height: 20.0,
+                      height: 10.0,
                     ),
                   ],
                 ),

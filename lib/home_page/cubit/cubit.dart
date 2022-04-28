@@ -12,26 +12,45 @@ class ProductCubit extends Cubit<ProductStates> {
   static ProductCubit get(context) => BlocProvider.of(context);
 
   FirebaseFirestore db = FirebaseFirestore.instance;
- //late ProductModel productModel ;
+
  late CategoryModel categoryModel ;
 
+
+  List<CategoryModel> category =[];
+
+  Future<List<CategoryModel>> getCategory()async{
+    emit(LoadingCategoryState());
+    var response = db.collection('categories').doc('2');
+    await response.get().then((value) {
+      List data = value.get('data');
+     // print(data);
+      data.forEach((element) {
+        category.add(CategoryModel.fromJson(element));
+        categoryModel = CategoryModel.fromJson(element);
+      });
+      emit(SuccessCategoryState());
+    }).catchError((error){
+      emit(ErrorCategoryState(error.toString()));
+    });
+    return category ;
+  }
   List<ProductModel> products = [];
   List<ProductModel>special = [];
-
   Future<List<ProductModel>> getProduct()async{
     emit(LoadingProductState());
     var response = db.collection('Product').doc('1');
     await response.get().then((value){
        List data = value.get('data');
-       print(data);
+      // print(data);
         data.forEach((element) {
           ProductModel model = ProductModel.fromJson(element);
-          if(model.categoryId == categoryModel.id && model.special!= true){
+          if( model.categoryId == categoryModel.id && model.special!= true ){
             products.add(model);
           }else{
             special.add(model);
           }
-          print('data : '+products.toString());
+         // print('data : '+products.toString());
+          print(products);
           emit(SuccessProductState());
         });
      }).catchError((error){
@@ -40,23 +59,8 @@ class ProductCubit extends Cubit<ProductStates> {
      });
     return products;
   }
-    List<CategoryModel> category =[];
-  Future<List<CategoryModel>> getCategory()async{
-    emit(LoadingCategoryState());
-    var response = db.collection('categories').doc('2');
-    await response.get().then((value) {
-      List data = value.get('data');
-      print(data);
-        data.forEach((element) {
-          categoryModel = CategoryModel.fromJson(element);
-          category.add(categoryModel);
-        });
-        emit(SuccessCategoryState());
-    }).catchError((error){
-      emit(ErrorCategoryState(error));
-    });
-    return category ;
-  }
+
+
 
 
 
