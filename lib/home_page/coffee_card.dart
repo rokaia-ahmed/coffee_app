@@ -10,7 +10,7 @@ class CoffeeCard extends StatefulWidget {
   @override
   State<CoffeeCard> createState() => _CoffeeCardState();
   CoffeeCard(this.type);
- final String type;
+  final String type;
 }
 
 class _CoffeeCardState extends State<CoffeeCard> {
@@ -73,7 +73,7 @@ class _CoffeeCardState extends State<CoffeeCard> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               image: DecorationImage(
-                                  image: NetworkImage(model.image),
+                                  image: NetworkImage(model.image!),
                                   fit: BoxFit.cover),
                             ),
                           ),
@@ -82,7 +82,7 @@ class _CoffeeCardState extends State<CoffeeCard> {
                             child: Column(
                               children: [
                                 Text(
-                                  model.name,
+                                  model.name!,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 17,
@@ -93,7 +93,7 @@ class _CoffeeCardState extends State<CoffeeCard> {
                                   height: 3,
                                 ),
                                 Text(
-                                  model.ingredients,
+                                  model.ingredients!,
                                   style: TextStyle(
                                     color: Color(0xff919293),
                                     fontSize: 13,
@@ -123,7 +123,8 @@ class _CoffeeCardState extends State<CoffeeCard> {
                                     Spacer(),
                                     InkWell(
                                       onTap: () {
-
+                                        ProductCubit.get(context)
+                                            .insertToDatabase(model);
                                       },
                                       child: Container(
                                         height: 30,

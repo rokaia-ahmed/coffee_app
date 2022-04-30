@@ -15,8 +15,7 @@ class ProductCubit extends Cubit<ProductStates> {
   static ProductCubit get(context) => BlocProvider.of(context);
 
   FirebaseFirestore db = FirebaseFirestore.instance;
- late Database database;
-
+  Database? database;
 
   //late CategoryModel categoryModel;
 
@@ -51,7 +50,7 @@ class ProductCubit extends Cubit<ProductStates> {
         ProductModel model = ProductModel.fromJson(element);
         if (model.special != true) {
           if (category[model.categoryId] == null)
-            category[model.categoryId] = [];
+            category[model.categoryId!] = [];
           category[model.categoryId]!.add(model);
           products.add(model);
         } else {
@@ -68,75 +67,79 @@ class ProductCubit extends Cubit<ProductStates> {
     return products;
   }
 
-  List<Widget> screens =[
+  List<Widget> screens = [
     HomePage(),
     Bag(),
     Favorite(),
   ];
 
-    List<ProductModel> bag =[];
-    List<ProductModel> favorite =[];
-  void createDatabase(){
-     openDatabase(
-      'todo.db',
-   version: 1,
-    onCreate: (database,version){
+  List<ProductModel> bag = [];
+  List<ProductModel> favorite = [];
+  void createDatabase() {
+    openDatabase('todo.db', version: 1, onCreate: (database, version) {
       print('database created');
-      database.execute('CREATE TABLE products(id TEXT PRIMARY KEY ,name TEXT ,ingredients TEXT,price TEXT,status TEXT)')
-          .then((value){
+      database
+          .execute(
+              'CREATE TABLE products(id TEXT PRIMARY KEY ,name TEXT ,ingredients TEXT,price TEXT,status TEXT , image TEXT)')
+          .then((value) {
         print('table created');
-      }).catchError((error){
+      }).catchError((error) {
         print('error when created table ${error.toString()}');
-      })  ;
-    },
-      onOpen: (database){
-        getDatabase(database);
-        print('database opened');
-      }
-  ).then((value){
-       database = value ;
-       emit(CreateDatabaseState());
-   });
-  }
-
-  void insertToDatabase(ProductModel model)async{
-
-    await database.transaction((txn)
-    {
-      txn.rawInsert('INSERT INTO products(name,ingredients,price,status,id) VALUES("${model.name}","${model.ingredients}","${model.price}","new","${model.id}")')
-          .then((value){
-            emit(InsertDatabaseState());
-            print(  '$value insert success');
-            getDatabase(database);
-      }).catchError((error){
-        print('error when record table ${error.toString()}');
       });
-      return 0 ;
+    }, onOpen: (database) {
+      print('database opened');
+    }).then((value) {
+      database = value;
+      getDatabase();
+      emit(CreateDatabaseState());
     });
   }
-  void getDatabase(database){
-      database.rawQuery('SELECT * FROM products')
-         .then((value) {
+
+  void insertToDatabase(ProductModel model) async {
+    database!
+        .rawInsert(
+            'INSERT INTO products(name,ingredients,price,status,id , image) VALUES("${model.name}","${model.ingredients}","${model.price}","new","${model.id}" , "${model.image}")')
+        .then((value) {
+      bag.add(model);
+      emit(UpdateDatabaseState());
+      print('added');
+    }).catchError((error) {
+      print(error);
+    });
+    /*await database.transaction((txn) {
+      txn
+          .rawInsert(
+              'INSERT INTO products(name,ingredients,price,status,id) VALUES("${model.name}","${model.ingredients}","${model.price}","new","${model.id}")')
+          .then((value) {
+        emit(InsertDatabaseState());
+        print('$value insert success');
+        getDatabase(database);
+      }).catchError((error) {
+        print('error when record table ${error.toString()}');
+      });
+      return null!;
+    });*/
+  }
+
+  void getDatabase() {
+    database!.rawQuery('SELECT * FROM products').then((value) {
       value.forEach((element) {
-        if(element['status']=='plus'){
-          bag.add(element);
-        }
+        ProductModel model = ProductModel.fromJson(element);
+        bag.add(model);
       });
       emit(GetDatabaseState());
     });
   }
 
-  void  updateDatabase({
+  void updateDatabase({
     required String status,
-    required String id ,
-  })async{
-    await database.rawUpdate(
+    required String id,
+  }) async {
+    await database!.rawUpdate(
       'UPDATE products SET status = ? WHERE id ?',
-      ['$status','$id'],
+      ['$status', '$id'],
     ).then((value) {
       emit(UpdateDatabaseState());
     });
   }
-
 }
-

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'change_Size_coffee.dart';
 
 class CoffeeDetailsPage extends StatelessWidget {
- final ProductModel model;
+  final ProductModel model;
   CoffeeDetailsPage(this.model);
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class CoffeeDetailsPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         image: DecorationImage(
-                          image: NetworkImage(model.image),
+                          image: NetworkImage(model.image!),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -97,7 +97,7 @@ class CoffeeDetailsPage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        model.name,
+                                        model.name!,
                                         textScaleFactor: 0.9,
                                         style: TextStyle(
                                           color: Colors.white,
@@ -109,7 +109,7 @@ class CoffeeDetailsPage extends StatelessWidget {
                                         height: 10.0,
                                       ),
                                       Text(
-                                        model.ingredients,
+                                        model.ingredients!,
                                         style: TextStyle(
                                           color: Color(0xff919292),
                                         ),
@@ -274,7 +274,7 @@ class CoffeeDetailsPage extends StatelessWidget {
                         height: 10,
                       ),
                       Text(
-                       model.description,
+                        model.description!,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 17,
@@ -324,7 +324,7 @@ class CoffeeDetailsPage extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    model.price,
+                                    model.price!,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 21,

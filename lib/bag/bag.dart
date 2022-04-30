@@ -11,34 +11,35 @@ class Bag extends StatelessWidget {
   const Bag({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ProductCubit,ProductStates>(
-      listener:(context,state){} ,
-      builder: (context,state){
+    return BlocConsumer<ProductCubit, ProductStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
         return SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: BuildCondition(
               condition: (ProductCubit.get(context).bag.isNotEmpty),
-              builder: (context){
+              builder: (context) {
                 return ListView.separated(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap:true ,
-                  scrollDirection: Axis.vertical ,
-                  separatorBuilder:(context,index)=> SizedBox(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  separatorBuilder: (context, index) => SizedBox(
                     height: 15,
-                  ) ,
-                  itemCount:ProductCubit.get(context).special.length ,
-                  itemBuilder: (context,index){
-                    ProductModel model =   ProductCubit.get(context).special[index] ;
-                    return  InkWell(
-                      onTap:(){
-                        Navigator.push(context,
-                          MaterialPageRoute(builder:(context)=>CoffeeDetailsPage(model)),
+                  ),
+                  itemCount: ProductCubit.get(context).bag.length,
+                  itemBuilder: (context, index) {
+                    ProductModel model = ProductCubit.get(context).bag[index];
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CoffeeDetailsPage(model)),
                         );
-                      } ,
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
-                        height:140 ,
+                        height: 140,
                         decoration: BoxDecoration(
                           color: Color(0xff141921),
                           borderRadius: BorderRadius.circular(20.0),
@@ -53,10 +54,9 @@ class Bag extends StatelessWidget {
                               height: 120,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30.0),
-                                image:DecorationImage(
-                                    image: NetworkImage(model.image),
-                                    fit: BoxFit.cover
-                                ) ,
+                                image: DecorationImage(
+                                    image: NetworkImage(model.image!),
+                                    fit: BoxFit.cover),
                               ),
                             ),
                             SizedBox(
@@ -67,7 +67,7 @@ class Bag extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  model.name,
+                                  model.name!,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
@@ -80,9 +80,9 @@ class Bag extends StatelessWidget {
                                   height: 6.0,
                                 ),
                                 Text(
-                                  model.ingredients,
+                                  model.ingredients!,
                                   style: TextStyle(
-                                    color:Color(0xff919293),
+                                    color: Color(0xff919293),
                                     fontSize: 12,
                                   ),
                                   overflow: TextOverflow.ellipsis,
@@ -97,30 +97,37 @@ class Bag extends StatelessWidget {
                                     Text(
                                       r'$',
                                       style: TextStyle(
-                                        color:Color(0xffd17842),
+                                        color: Color(0xffd17842),
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Text(
-                                      model.price,
+                                      model.price!,
                                       style: TextStyle(
-                                        color:Colors.white,
+                                        color: Colors.white,
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    SizedBox(width: 60,),
+                                    SizedBox(
+                                      width: 60,
+                                    ),
                                     InkWell(
-                                      onTap: (){},
+                                      onTap: () {},
                                       child: Container(
                                         height: 30,
                                         width: 30,
                                         decoration: BoxDecoration(
                                           color: Color(0xffd17842),
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
-                                        child: Icon(Icons.add,size: 20,color: Colors.white,),
+                                        child: Icon(
+                                          Icons.minus,
+                                          size: 20,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -134,12 +141,11 @@ class Bag extends StatelessWidget {
                   },
                 );
               },
-              fallback:(context)=> Center(child:CircularProgressIndicator()),
+              fallback: (context) => Center(child: CircularProgressIndicator()),
             ),
           ),
         );
       },
-
     );
   }
 }
