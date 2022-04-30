@@ -96,6 +96,7 @@ class ProductCubit extends Cubit<ProductStates> {
   }
 
   void insertToDatabase(ProductModel model) async {
+    print(model.id);
     database!
         .rawInsert(
             'INSERT INTO products(name,ingredients,price,status,id , image) VALUES("${model.name}","${model.ingredients}","${model.price}","new","${model.id}" , "${model.image}")')
@@ -131,14 +132,18 @@ class ProductCubit extends Cubit<ProductStates> {
     });
   }
 
-  void updateDatabase({
-    required String status,
-    required String id,
-  }) async {
-    await database!.rawUpdate(
-      'UPDATE products SET status = ? WHERE id ?',
-      ['$status', '$id'],
-    ).then((value) {
+  void updateDatabase(
+    String id,
+  ) async {
+    await database!
+        .rawUpdate('DELETE FROM products WHERE id = "$id"')
+        .then((value) {
+      for (int i = 0; i < bag.length; i++) {
+        if (bag[i].id == id) {
+          bag.removeAt(i);
+          break;
+        }
+      }
       emit(UpdateDatabaseState());
     });
   }

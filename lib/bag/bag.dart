@@ -114,7 +114,10 @@ class Bag extends StatelessWidget {
                                       width: 60,
                                     ),
                                     InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        ProductCubit.get(context)
+                                            .updateDatabase(model.id!);
+                                      },
                                       child: Container(
                                         height: 30,
                                         width: 30,
@@ -123,10 +126,14 @@ class Bag extends StatelessWidget {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                         ),
-                                        child: Icon(
-                                          Icons.minus,
-                                          size: 20,
-                                          color: Colors.white,
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 20),
+                                          child: Icon(
+                                            Icons.minimize,
+                                            size: 20,
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ),
                                     ),
