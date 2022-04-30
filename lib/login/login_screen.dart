@@ -6,7 +6,7 @@ import 'package:coffee_shop/register/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../components/text_form_feild.dart';
-import '../home_page/home_page.dart';
+import '../home_page/layout.dart';
 import 'cubit/cubit.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
            CaChHelper.saveData(key: 'id', value:state.id)
                .then((value){
              Navigator.pushReplacement(context,
-                 MaterialPageRoute(builder: (context)=>HomePage()),
+                 MaterialPageRoute(builder: (context)=>Layout()),
              );
            }
            );

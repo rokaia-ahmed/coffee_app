@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'change_Size_coffee.dart';
 
 class CoffeeDetailsPage extends StatelessWidget {
-  ProductModel model;
+ final ProductModel model;
   CoffeeDetailsPage(this.model);
   @override
   Widget build(BuildContext context) {
@@ -97,7 +97,8 @@ class CoffeeDetailsPage extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Cappuccino',
+                                        model.name,
+                                        textScaleFactor: 0.9,
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 25,
@@ -108,7 +109,7 @@ class CoffeeDetailsPage extends StatelessWidget {
                                         height: 10.0,
                                       ),
                                       Text(
-                                        'with oct milk',
+                                        model.ingredients,
                                         style: TextStyle(
                                           color: Color(0xff919292),
                                         ),
@@ -183,7 +184,7 @@ class CoffeeDetailsPage extends StatelessWidget {
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 15,
+                                            width: 10,
                                           ),
                                           Container(
                                             width: 42,
@@ -233,6 +234,7 @@ class CoffeeDetailsPage extends StatelessWidget {
                                         child: Center(
                                           child: Text(
                                             'Medium Roasted',
+                                            textScaleFactor: 0.8,
                                             style: TextStyle(
                                               color: Color(0xff919296),
                                               fontWeight: FontWeight.bold,
@@ -272,7 +274,7 @@ class CoffeeDetailsPage extends StatelessWidget {
                         height: 10,
                       ),
                       Text(
-                        'A cappuccino is a coffee based drink made primary from espresso and milk....',
+                       model.description,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 17,
@@ -322,7 +324,7 @@ class CoffeeDetailsPage extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    '4.20',
+                                    model.price,
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 21,

@@ -1,9 +1,9 @@
 
-import 'package:coffee_shop/home_page/home_page.dart';
 import 'package:coffee_shop/login/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Shared/cach_helper.dart';
+import 'home_page/layout.dart';
 
 
 String id = '' ;
@@ -16,7 +16,7 @@ void main() async {
   Widget? widget ;
 
   if(id.isNotEmpty){
-    widget = HomePage();
+    widget = Layout();
   }else{
     widget = LoginScreen();
   }

@@ -10,17 +10,16 @@ class CoffeeCard extends StatefulWidget {
   @override
   State<CoffeeCard> createState() => _CoffeeCardState();
   CoffeeCard(this.type);
-  String type;
+ final String type;
 }
 
-class _CoffeeCardState extends State<CoffeeCard> with TickerProviderStateMixin {
+class _CoffeeCardState extends State<CoffeeCard> {
   final List<String> images = [
     'images/Cappuccino1.jpg',
     'images/Cappuccino2.jpg',
     'images/Cappuccino3.jpg',
     'images/Cappuccino4.jpg',
   ];
-
   final List<String> ingredients = [
     'with oat milk',
     'with cinnamon power',
@@ -123,7 +122,9 @@ class _CoffeeCardState extends State<CoffeeCard> with TickerProviderStateMixin {
                                     ),
                                     Spacer(),
                                     InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+
+                                      },
                                       child: Container(
                                         height: 30,
                                         width: 30,

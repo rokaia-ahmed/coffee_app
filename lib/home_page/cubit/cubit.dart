@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffee_shop/favorite/favorite.dart';
 import 'package:coffee_shop/home_page/cubit/states.dart';
-import 'package:coffee_shop/model/category.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sqflite/sqflite.dart';
 
+import '../../bag/bag.dart';
 import '../../model/product_model.dart';
+import '../home_page.dart';
 
 class ProductCubit extends Cubit<ProductStates> {
   ProductCubit(ProductStates initialState) : super(initialState);
@@ -11,8 +15,10 @@ class ProductCubit extends Cubit<ProductStates> {
   static ProductCubit get(context) => BlocProvider.of(context);
 
   FirebaseFirestore db = FirebaseFirestore.instance;
+ late Database database;
 
-  late CategoryModel categoryModel;
+
+  //late CategoryModel categoryModel;
 
   //List<CategoryModel> category = [];
 
@@ -61,10 +67,76 @@ class ProductCubit extends Cubit<ProductStates> {
     });
     return products;
   }
+
+  List<Widget> screens =[
+    HomePage(),
+    Bag(),
+    Favorite(),
+  ];
+
+    List<ProductModel> bag =[];
+    List<ProductModel> favorite =[];
+  void createDatabase(){
+     openDatabase(
+      'todo.db',
+   version: 1,
+    onCreate: (database,version){
+      print('database created');
+      database.execute('CREATE TABLE products(id TEXT PRIMARY KEY ,name TEXT ,ingredients TEXT,price TEXT,status TEXT)')
+          .then((value){
+        print('table created');
+      }).catchError((error){
+        print('error when created table ${error.toString()}');
+      })  ;
+    },
+      onOpen: (database){
+        getDatabase(database);
+        print('database opened');
+      }
+  ).then((value){
+       database = value ;
+       emit(CreateDatabaseState());
+   });
+  }
+
+  void insertToDatabase(ProductModel model)async{
+
+    await database.transaction((txn)
+    {
+      txn.rawInsert('INSERT INTO products(name,ingredients,price,status,id) VALUES("${model.name}","${model.ingredients}","${model.price}","new","${model.id}")')
+          .then((value){
+            emit(InsertDatabaseState());
+            print(  '$value insert success');
+            getDatabase(database);
+      }).catchError((error){
+        print('error when record table ${error.toString()}');
+      });
+      return 0 ;
+    });
+  }
+  void getDatabase(database){
+      database.rawQuery('SELECT * FROM products')
+         .then((value) {
+      value.forEach((element) {
+        if(element['status']=='plus'){
+          bag.add(element);
+        }
+      });
+      emit(GetDatabaseState());
+    });
+  }
+
+  void  updateDatabase({
+    required String status,
+    required String id ,
+  })async{
+    await database.rawUpdate(
+      'UPDATE products SET status = ? WHERE id ?',
+      ['$status','$id'],
+    ).then((value) {
+      emit(UpdateDatabaseState());
+    });
+  }
+
 }
 
-/*  var response = await db.collection('Product').doc('1').get();
-    List data = response.get('data');
-    data.forEach((element) {
-      products.add(ProductModel.fromJson(data[element]));
-    });   */
