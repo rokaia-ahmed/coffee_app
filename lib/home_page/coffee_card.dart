@@ -124,7 +124,7 @@ class _CoffeeCardState extends State<CoffeeCard> {
                                     InkWell(
                                       onTap: () {
                                         ProductCubit.get(context)
-                                            .insertToDatabase(model);
+                                            .insertToDatabaseBag(model);
                                       },
                                       child: Container(
                                         height: 30,

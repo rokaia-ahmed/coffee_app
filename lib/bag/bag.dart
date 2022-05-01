@@ -1,6 +1,7 @@
 import 'package:buildcondition/buildcondition.dart';
 import 'package:coffee_shop/home_page/cubit/cubit.dart';
 import 'package:coffee_shop/home_page/cubit/states.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -116,7 +117,7 @@ class Bag extends StatelessWidget {
                                     InkWell(
                                       onTap: () {
                                         ProductCubit.get(context)
-                                            .updateDatabase(model.id!);
+                                            .updateDatabaseBag(model.id!);
                                       },
                                       child: Container(
                                         height: 30,
@@ -148,7 +149,25 @@ class Bag extends StatelessWidget {
                   },
                 );
               },
-              fallback: (context) => Center(child: CircularProgressIndicator()),
+              fallback: (context) => Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('add your coffee her',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 30,
+                      ),
+                      ),
+                      Image.asset(
+                        'images/shopping.png',
+                         height: 120,
+                        width: 150
+                      ),
+                    ],
+                  ),
+              ),
             ),
           ),
         );

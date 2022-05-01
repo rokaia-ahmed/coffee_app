@@ -128,7 +128,7 @@ class SpecialCoffeeCard extends StatelessWidget {
                                 InkWell(
                                   onTap: () {
                                     ProductCubit.get(context)
-                                        .insertToDatabase(model);
+                                        .insertToDatabaseBag(model);
                                   },
                                   child: Container(
                                     height: 30,

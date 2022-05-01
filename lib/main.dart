@@ -2,7 +2,10 @@
 import 'package:coffee_shop/login/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Shared/cach_helper.dart';
+import 'home_page/cubit/cubit.dart';
+import 'home_page/cubit/states.dart';
 import 'home_page/layout.dart';
 
 
@@ -34,10 +37,13 @@ class MyApp extends StatelessWidget {
 }) ;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      home:startPage,
+    return BlocProvider(
+     create:(context) => ProductCubit(InitialProductState())..getProduct()..createDatabaseBag()..createDatabaseFavorite() ,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        home:startPage,
+      ),
     );
   }
 }

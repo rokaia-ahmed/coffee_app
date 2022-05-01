@@ -15,7 +15,12 @@ class ErrorCategoryState extends ProductStates{
   final String error ;
   ErrorCategoryState(this.error);
 }
-class CreateDatabaseState extends ProductStates{}
-class InsertDatabaseState extends ProductStates{}
-class GetDatabaseState extends ProductStates{}
-class UpdateDatabaseState extends ProductStates{}
+class CreateBagDatabaseState extends ProductStates{}
+class InsertBagDatabaseState extends ProductStates{}
+class GetBagDatabaseState extends ProductStates{}
+class UpdateBagDatabaseState extends ProductStates{}
+
+class CreateFavoriteDatabaseState extends ProductStates{}
+class InsertFavoriteDatabaseState extends ProductStates{}
+class GetFavoriteDatabaseState extends ProductStates{}
+class UpdateFavoriteDatabaseState extends ProductStates{}

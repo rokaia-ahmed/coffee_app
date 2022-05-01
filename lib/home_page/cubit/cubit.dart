@@ -15,7 +15,8 @@ class ProductCubit extends Cubit<ProductStates> {
   static ProductCubit get(context) => BlocProvider.of(context);
 
   FirebaseFirestore db = FirebaseFirestore.instance;
-  Database? database;
+  Database? databaseBag;
+  Database? databaseFav;
 
   //late CategoryModel categoryModel;
 
@@ -75,7 +76,7 @@ class ProductCubit extends Cubit<ProductStates> {
 
   List<ProductModel> bag = [];
   List<ProductModel> favorite = [];
-  void createDatabase() {
+  void createDatabaseBag() {
     openDatabase('todo.db', version: 1, onCreate: (database, version) {
       print('database created');
       database
@@ -89,53 +90,39 @@ class ProductCubit extends Cubit<ProductStates> {
     }, onOpen: (database) {
       print('database opened');
     }).then((value) {
-      database = value;
-      getDatabase();
-      emit(CreateDatabaseState());
+      databaseBag = value;
+      getDatabaseBag();
+      emit(CreateBagDatabaseState());
     });
   }
 
-  void insertToDatabase(ProductModel model) async {
+  void insertToDatabaseBag(ProductModel model) async {
     print(model.id);
-    database!
+    databaseBag!
         .rawInsert(
             'INSERT INTO products(name,ingredients,price,status,id , image) VALUES("${model.name}","${model.ingredients}","${model.price}","new","${model.id}" , "${model.image}")')
         .then((value) {
       bag.add(model);
-      emit(UpdateDatabaseState());
+      emit(InsertBagDatabaseState());
       print('added');
     }).catchError((error) {
       print(error);
     });
-    /*await database.transaction((txn) {
-      txn
-          .rawInsert(
-              'INSERT INTO products(name,ingredients,price,status,id) VALUES("${model.name}","${model.ingredients}","${model.price}","new","${model.id}")')
-          .then((value) {
-        emit(InsertDatabaseState());
-        print('$value insert success');
-        getDatabase(database);
-      }).catchError((error) {
-        print('error when record table ${error.toString()}');
-      });
-      return null!;
-    });*/
   }
 
-  void getDatabase() {
-    database!.rawQuery('SELECT * FROM products').then((value) {
+  void getDatabaseBag() {
+    databaseBag!.rawQuery('SELECT * FROM products').then((value) {
       value.forEach((element) {
         ProductModel model = ProductModel.fromJson(element);
         bag.add(model);
       });
-      emit(GetDatabaseState());
+      emit(GetBagDatabaseState());
     });
   }
-
-  void updateDatabase(
+  void updateDatabaseBag(
     String id,
   ) async {
-    await database!
+    await databaseBag!
         .rawUpdate('DELETE FROM products WHERE id = "$id"')
         .then((value) {
       for (int i = 0; i < bag.length; i++) {
@@ -144,7 +131,68 @@ class ProductCubit extends Cubit<ProductStates> {
           break;
         }
       }
-      emit(UpdateDatabaseState());
+      emit(UpdateBagDatabaseState());
+    });
+  }
+
+
+  void createDatabaseFavorite() {
+    openDatabase('fav.db', version: 1, onCreate: (database, version) {
+      print('database created');
+      database
+          .execute(
+          'CREATE TABLE favorite(id TEXT PRIMARY KEY ,name TEXT ,ingredients TEXT,price TEXT,status TEXT , image TEXT)')
+          .then((value) {
+        print('table favorite created');
+      }).catchError((error) {
+        print('error when created table ${error.toString()}');
+      });
+    }, onOpen: (database) {
+      print('database opened');
+    }).then((value) {
+      databaseFav = value;
+      getDatabaseFavorite();
+      emit(CreateFavoriteDatabaseState());
+    });
+  }
+
+  void insertToDatabaseFavorite(ProductModel model) async {
+    print(model.id);
+    databaseFav!
+        .rawInsert(
+        'INSERT INTO favorite(name,ingredients,price,status,id , image) VALUES("${model.name}","${model.ingredients}","${model.price}","new","${model.id}" , "${model.image}")')
+        .then((value) {
+      favorite.add(model);
+      emit(InsertFavoriteDatabaseState());
+      print('added');
+    }).catchError((error) {
+      print(error);
+    });
+  }
+
+  void getDatabaseFavorite() {
+    databaseFav!.rawQuery('SELECT * FROM favorite').then((value) {
+      value.forEach((element) {
+        ProductModel model = ProductModel.fromJson(element);
+        favorite.add(model);
+      });
+      emit(GetFavoriteDatabaseState());
+    });
+  }
+
+  void updateDatabaseFav(
+      String id,
+      ) async {
+    await databaseFav!
+        .rawUpdate('DELETE FROM favorite WHERE id = "$id"')
+        .then((value) {
+      for (int i = 0; i < favorite.length; i++) {
+        if (favorite[i].id == id) {
+          favorite.removeAt(i);
+          break;
+        }
+      }
+      emit(UpdateFavoriteDatabaseState());
     });
   }
 }
