@@ -40,6 +40,8 @@ class ProductCubit extends Cubit<ProductStates> {
   // }
   List<ProductModel> products = [];
   List<ProductModel> special = [];
+  List<ProductModel> allProduct = [];
+  List<ProductModel> searchProduct = [];
   Map<String, List<ProductModel>> category = {};
   Future<List<ProductModel>> getProduct() async {
     emit(LoadingProductState());
@@ -49,6 +51,8 @@ class ProductCubit extends Cubit<ProductStates> {
       // print(data);
       data.forEach((element) {
         ProductModel model = ProductModel.fromJson(element);
+        allProduct.add(model);
+        searchProduct.add(model);
         if (model.special != true) {
           if (category[model.categoryId] == null)
             category[model.categoryId!] = [];
@@ -119,6 +123,7 @@ class ProductCubit extends Cubit<ProductStates> {
       emit(GetBagDatabaseState());
     });
   }
+
   void updateDatabaseBag(
     String id,
   ) async {
@@ -135,13 +140,12 @@ class ProductCubit extends Cubit<ProductStates> {
     });
   }
 
-
   void createDatabaseFavorite() {
     openDatabase('fav.db', version: 1, onCreate: (database, version) {
       print('database created');
       database
           .execute(
-          'CREATE TABLE favorite(id TEXT PRIMARY KEY ,name TEXT ,ingredients TEXT,price TEXT,status TEXT , image TEXT)')
+              'CREATE TABLE favorite(id TEXT PRIMARY KEY ,name TEXT ,ingredients TEXT,price TEXT,status TEXT , image TEXT)')
           .then((value) {
         print('table favorite created');
       }).catchError((error) {
@@ -160,7 +164,7 @@ class ProductCubit extends Cubit<ProductStates> {
     print(model.id);
     databaseFav!
         .rawInsert(
-        'INSERT INTO favorite(name,ingredients,price,status,id , image) VALUES("${model.name}","${model.ingredients}","${model.price}","new","${model.id}" , "${model.image}")')
+            'INSERT INTO favorite(name,ingredients,price,status,id , image) VALUES("${model.name}","${model.ingredients}","${model.price}","new","${model.id}" , "${model.image}")')
         .then((value) {
       favorite.add(model);
       emit(InsertFavoriteDatabaseState());
@@ -181,8 +185,8 @@ class ProductCubit extends Cubit<ProductStates> {
   }
 
   void updateDatabaseFav(
-      String id,
-      ) async {
+    String id,
+  ) async {
     await databaseFav!
         .rawUpdate('DELETE FROM favorite WHERE id = "$id"')
         .then((value) {
@@ -194,5 +198,16 @@ class ProductCubit extends Cubit<ProductStates> {
       }
       emit(UpdateFavoriteDatabaseState());
     });
+  }
+
+  void search(
+    String text,
+  ) {
+    searchProduct.clear();
+    for (ProductModel model in allProduct) {
+      if (model.name!.toLowerCase().startsWith(text.toLowerCase()))
+        searchProduct.add(model);
+    }
+    emit(SearchState());
   }
 }

@@ -3,6 +3,7 @@ import 'package:coffee_shop/home_page/special_coffee_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../Search/search_screen.dart';
 import '../model/category.dart';
 import 'cubit/cubit.dart';
 import 'cubit/states.dart';
@@ -26,9 +27,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ProductCubit,ProductStates>(
-      listener: (context,state){},
-      builder: (context,state){
+    return BlocConsumer<ProductCubit, ProductStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
         return Scaffold(
           backgroundColor: Colors.black,
           body: SafeArea(
@@ -85,29 +86,45 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       SizedBox(
                         height: 25,
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          color: Color(0xff141921),
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: TextField(
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: 'Find your coffee ...',
-                            hintStyle: TextStyle(
-                              color: Colors.grey[500],
+                      InkWell(
+                        onTap: () {
+                          ProductCubit.get(context).searchProduct.clear();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SearchPage()));
+                        },
+                        child: Hero(
+                          tag: 'search_bar',
+                          child: Card(
+                            color: Colors.transparent,
+                            margin: const EdgeInsets.all(0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                color: Color(0xff141921),
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              child: TextField(
+                                enabled: false,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                                decoration: InputDecoration(
+                                  hintText: 'Find your coffee ...',
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey[500],
+                                  ),
+                                  hoverColor: Colors.grey,
+                                  border: InputBorder.none,
+                                  prefixIcon: Icon(
+                                    Icons.search,
+                                    color: Colors.grey[600],
+                                  ),
+                                ),
+                              ),
                             ),
-                            hoverColor: Colors.grey,
-                            border: InputBorder.none,
-                            prefixIcon: Icon(
-                              Icons.search,
-                              color: Colors.grey[600],
-                            ),
                           ),
-
                         ),
                       ),
                       SizedBox(
