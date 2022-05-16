@@ -40,3 +40,10 @@ class UpdateFavoriteDatabaseState extends ProductStates {}
 
 class SearchState extends ProductStates {}
 class ChangePriceState extends ProductStates {}
+
+class LoadingGetUsersDataState extends ProductStates {}
+class SuccessGetUsersDataState extends ProductStates {}
+class ErrorGetUsersDataState extends ProductStates {
+  final String error;
+  ErrorGetUsersDataState(this.error);
+}

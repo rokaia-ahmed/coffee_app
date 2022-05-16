@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffee_shop/favorite/favorite.dart';
 import 'package:coffee_shop/home_page/cubit/states.dart';
+import 'package:coffee_shop/model/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../bag/bag.dart';
+import '../../main.dart';
 import '../../model/product_model.dart';
 import '../home_page.dart';
 
@@ -218,6 +220,18 @@ class ProductCubit extends Cubit<ProductStates> {
    this.isM = isM ;
    this.isL = isL ;
    emit(ChangePriceState());
+  }
+
+  UserModel? model ;
+ void getUserData(){
+   emit(LoadingGetUsersDataState());
+    FirebaseFirestore.instance.collection('users').doc(id).get().
+    then((value){
+      model = UserModel.fromJson(value.data()!);
+      emit(SuccessGetUsersDataState());
+    }).catchError((error){
+      emit(ErrorGetUsersDataState(error.toString()));
+    });
   }
 
 }

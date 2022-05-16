@@ -47,7 +47,6 @@ class RegisterCubit extends Cubit<RegisterStates>{
       email:email ,
       image: '',
     );
-    emit(LoadingCreateUserState());
    FirebaseFirestore.instance.collection('users').doc(id).set(model.toMap())
        .then((value){
        emit(SuccessCreateUserState());

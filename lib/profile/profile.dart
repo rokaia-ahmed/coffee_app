@@ -1,20 +1,20 @@
 
 import 'package:buildcondition/buildcondition.dart';
-import 'package:coffee_shop/register/cubit/states.dart';
+import 'package:coffee_shop/home_page/cubit/cubit.dart';
+import 'package:coffee_shop/home_page/cubit/states.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../login/login_screen.dart';
 import '../model/user.dart';
-import '../register/cubit/cubit.dart';
 
 class ProfileScreen extends StatelessWidget {
    ProfileScreen({Key? key}) : super(key: key);
    UserModel ? model ;
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RegisterCubit,RegisterStates>(
+    return BlocConsumer<ProductCubit,ProductStates>(
       listener: (context,state){},
       builder:(context,state){
         return Scaffold(
@@ -26,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: BuildCondition(
-                condition: (state is LoadingCreateUserState),
+                condition: (model != null),
                 builder:(context)=> Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
