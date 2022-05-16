@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     var emailController = TextEditingController();
     var passwordController = TextEditingController();
-
+     bool isSecure = true;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Spacer(
                             flex: 1,
                           ),
-                          Text('Login',
+                          Text('login',
                             style:TextStyle(
                               color: Colors.white,
                               fontSize: 30,
@@ -85,8 +85,20 @@ class _LoginScreenState extends State<LoginScreen> {
                             flex: 1,
                           ),
                           CustomTextFormField(
+                            obscureText: isSecure,
                             hintText: 'enter your password',
                             controller: passwordController,
+                            icon:IconButton(
+                              onPressed:(){
+                                setState(() {
+                                  isSecure =! isSecure ;
+                                });
+                              } ,
+                              icon: Icon(
+                                (isSecure)?  Icons.visibility_off : Icons.visibility,
+                                  color: Colors.white,
+                              ),
+                            ) ,
                           ),
                           Spacer(
                             flex: 1,
@@ -108,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               minWidth: double.infinity,
                               height: 60.0,
-                              child:Text('Login',
+                              child:Text('login',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 30,
@@ -138,6 +150,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               ),
                             ],
+                          ),
+                          if(state is LoadingLoginState)
+                          Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
                           ),
                           Spacer(
                             flex: 8,

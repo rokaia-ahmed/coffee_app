@@ -9,6 +9,7 @@ class LoginCubit extends Cubit<LoginStates>{
   static LoginCubit get(context) => BlocProvider.of(context);
 
   void login({required String email , required String password}){
+    emit(LoadingLoginState());
     final FirebaseAuth _firebaseAuth = FirebaseAuth.instance ;
     _firebaseAuth.signInWithEmailAndPassword(
         email: email,

@@ -1,5 +1,6 @@
 import 'package:coffee_shop/home_page/coffee_card.dart';
 import 'package:coffee_shop/home_page/special_coffee_card.dart';
+import 'package:coffee_shop/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,15 +48,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xff1b2027),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Icon(
-                              Icons.menu,
-                              size: 40,
-                              color: Color(0xff4d4f52),
+                          InkWell(
+                            onTap:(){
+                              Navigator.push(context,MaterialPageRoute(
+                                  builder:(context)=>ProfileScreen()),
+                              );
+                            } ,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Color(0xff1b2027),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Icon(
+                                Icons.menu,
+                                size: 40,
+                                color: Color(0xff4d4f52),
+                              ),
                             ),
                           ),
                           Container(

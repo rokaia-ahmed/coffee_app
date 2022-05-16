@@ -21,7 +21,7 @@ class Favorite extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: BuildCondition(
-              condition: (ProductCubit.get(context).favorite.isNotEmpty),
+              condition:(ProductCubit.get(context).favorite != null) && (ProductCubit.get(context).favorite.isNotEmpty),
               builder: (context) {
                 return ListView.separated(
                   shrinkWrap: true,
@@ -163,7 +163,7 @@ class Favorite extends StatelessWidget {
                       ),
                       Icon(Icons.favorite,
                         color: Color(0xffd17842)  ,
-                        size: 80,
+                        size: 100,
                       ),
                     ],
                   )

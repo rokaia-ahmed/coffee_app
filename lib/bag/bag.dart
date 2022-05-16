@@ -1,7 +1,6 @@
 import 'package:buildcondition/buildcondition.dart';
 import 'package:coffee_shop/home_page/cubit/cubit.dart';
 import 'package:coffee_shop/home_page/cubit/states.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -160,10 +159,9 @@ class Bag extends StatelessWidget {
                         fontSize: 30,
                       ),
                       ),
-                      Image.asset(
-                        'images/shopping.png',
-                         height: 120,
-                        width: 150
+                      Icon(Icons.shopping_cart,
+                      size: 120,
+                      color: Color(0xffd17842) ,
                       ),
                     ],
                   ),

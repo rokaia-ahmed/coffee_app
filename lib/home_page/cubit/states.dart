@@ -39,3 +39,4 @@ class GetFavoriteDatabaseState extends ProductStates {}
 class UpdateFavoriteDatabaseState extends ProductStates {}
 
 class SearchState extends ProductStates {}
+class ChangePriceState extends ProductStates {}

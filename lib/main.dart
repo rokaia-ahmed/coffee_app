@@ -1,5 +1,7 @@
 
 import 'package:coffee_shop/login/login_screen.dart';
+import 'package:coffee_shop/register/cubit/cubit.dart';
+import 'package:coffee_shop/register/cubit/states.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,8 +39,11 @@ class MyApp extends StatelessWidget {
 }) ;
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-     create:(context) => ProductCubit(InitialProductState())..getProduct()..createDatabaseBag()..createDatabaseFavorite() ,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create:(context) => ProductCubit(InitialProductState())..getProduct()..createDatabaseBag()..createDatabaseFavorite() ),
+        BlocProvider(create: (context)=> RegisterCubit(InitialRegisterState()) ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',

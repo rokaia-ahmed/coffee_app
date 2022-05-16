@@ -1,10 +1,10 @@
+
 import 'dart:ui';
 import 'package:coffee_shop/home_page/cubit/cubit.dart';
 import 'package:coffee_shop/home_page/cubit/states.dart';
 import 'package:coffee_shop/model/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'change_Size_coffee.dart';
 
 class CoffeeDetailsPage extends StatefulWidget {
@@ -15,13 +15,13 @@ class CoffeeDetailsPage extends StatefulWidget {
 }
 
 class _CoffeeDetailsPageState extends State<CoffeeDetailsPage> {
-
  late bool fav = false ;
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return BlocConsumer<ProductCubit,ProductStates>(
-      listener:(context,state){} ,
+      listener:(context,state){
+      } ,
       builder:(context,state){
         return Scaffold(
           backgroundColor: Colors.black,
@@ -345,14 +345,33 @@ class _CoffeeDetailsPageState extends State<CoffeeDetailsPage> {
                                           fontSize: 21,
                                         ),
                                       ),
+                                      if(ProductCubit.get(context).isM)
                                       Text(
-                                        widget.model.price!,
+                                        widget.model.price! ,
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 21,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
+                                      if(ProductCubit.get(context).isS)
+                                      Text(
+                                        '${double.parse(widget.model.price!)/2.0}' ,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 21,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      if(ProductCubit.get(context).isL)
+                                      Text(
+                                          '${double.parse(widget.model.price!)*2.0}' ,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 21,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                     ],
                                   ),
                                 ],

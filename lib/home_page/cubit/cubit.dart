@@ -18,10 +18,7 @@ class ProductCubit extends Cubit<ProductStates> {
   Database? databaseBag;
   Database? databaseFav;
 
-  //late CategoryModel categoryModel;
-
   //List<CategoryModel> category = [];
-
   // Future<List<CategoryModel>> getCategory()async{
   //   emit(LoadingCategoryState());
   //   var response = db.collection('categories').doc('2');
@@ -38,6 +35,7 @@ class ProductCubit extends Cubit<ProductStates> {
   //   });
   //   return category ;
   // }
+
   List<ProductModel> products = [];
   List<ProductModel> special = [];
   List<ProductModel> allProduct = [];
@@ -61,7 +59,6 @@ class ProductCubit extends Cubit<ProductStates> {
         } else {
           special.add(model);
         }
-        // print('data : '+products.toString());
         print(products);
         emit(SuccessProductState());
       });
@@ -210,4 +207,17 @@ class ProductCubit extends Cubit<ProductStates> {
     }
     emit(SearchState());
   }
+ // ========================================================
+  bool isS = false;
+  bool isM = false;
+  bool isL= false;
+  void price({
+   required bool isS , required bool isM ,required bool isL ,
+}){
+   this.isS = isS ;
+   this.isM = isM ;
+   this.isL = isL ;
+   emit(ChangePriceState());
+  }
+
 }

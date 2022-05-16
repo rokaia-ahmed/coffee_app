@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 class CustomTextFormField extends StatelessWidget {
 
   CustomTextFormField({this.onChange, required  this.hintText,
-  this.obscureText= false,this.controller});
+  this.obscureText= false,this.controller,this.icon});
 
-Function (String) ? onChange ;
+final Function (String) ? onChange ;
 final String ? hintText;
-bool? obscureText;
- TextEditingController? controller ;
+final bool? obscureText;
+final Widget? icon ;
+final TextEditingController? controller ;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +23,11 @@ bool? obscureText;
           if(data!.isEmpty){
           return 'field is required';
            }
+          return null ;
         },
           onChanged:onChange ,
           decoration: InputDecoration(
+          suffixIcon: icon,
           enabledBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(20.0),
     borderSide: BorderSide(
