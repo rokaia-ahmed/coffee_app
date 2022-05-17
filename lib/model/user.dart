@@ -19,7 +19,7 @@ class UserModel {
       name: json['name'],
       phone: json['phone'],
       image: json['image'],
-      id: json['id'] ?? '1',
+      id: json['id'],
     );
   }
   Map<String, dynamic> toMap() {
