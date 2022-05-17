@@ -209,29 +209,31 @@ class ProductCubit extends Cubit<ProductStates> {
     }
     emit(SearchState());
   }
- // ========================================================
+
+  // ========================================================
   bool isS = false;
   bool isM = false;
-  bool isL= false;
+  bool isL = false;
   void price({
-   required bool isS , required bool isM ,required bool isL ,
-}){
-   this.isS = isS ;
-   this.isM = isM ;
-   this.isL = isL ;
-   emit(ChangePriceState());
+    required bool isS,
+    required bool isM,
+    required bool isL,
+  }) {
+    this.isS = isS;
+    this.isM = isM;
+    this.isL = isL;
+    emit(ChangePriceState());
   }
 
-  UserModel? model ;
- void getUserData(){
-   emit(LoadingGetUsersDataState());
-    FirebaseFirestore.instance.collection('users').doc(id).get().
-    then((value){
+  UserModel? model;
+  void getUserData() {
+    emit(LoadingGetUsersDataState());
+    FirebaseFirestore.instance.collection('users').doc(id).get().then((value) {
+      print('val:${value.data()}');
       model = UserModel.fromJson(value.data()!);
       emit(SuccessGetUsersDataState());
-    }).catchError((error){
+    }).catchError((error) {
       emit(ErrorGetUsersDataState(error.toString()));
     });
   }
-
 }
